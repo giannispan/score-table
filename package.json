@@ -3,9 +3,47 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   },
-  "author": "giannispan",
-  "license": "MIT"
+  "scripts": {
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel --out-dir ./build . --source-maps --copy-files --ignore 'node_modules/**/*.js'",
+    "build": "npm run clean && npm run build-babel",
+    "start": "npm run build && node ./build/app.js",
+    "dev": "nodemon --exec babel-node app.js",
+    "test": "mocha --recursive --require @babel/register --timeout 100000 --exit",
+    "lint": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
+  },
+  "author": "gpan",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/node": "^7.14.7",
+    "@babel/plugin-proposal-object-rest-spread": "^7.14.7",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/register": "^7.14.5",
+    "express": "^4.17.1",
+    "express-validation": "^3.0.8",
+    "mocha": "^9.0.2",
+    "mongoose": "^5.13.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.9",
+    "redis": "^3.1.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^7.0.1",
+    "jsdoc": "^3.6.7",
+    "prettier": "^2.3.2",
+    "supertest": "^6.1.3"
+  }
 }
